@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Formation Mastery Test</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #16a34a;
+            --danger: #dc2626;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 { color: #0f172a; margin-top: 0; }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="tel"], input[type="password"] {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: var(--primary-hover); }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        .btn-block { width: 100%; }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover { background-color: #b91c1c; }
+
+        .hidden { display: none !important; }
+
+        .card {
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover { background-color: #f1f5f9; }
+        .option-label input { margin-right: 12px; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        .bg-blue { background-color: var(--primary); }
+        .bg-green { background-color: var(--success); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th { background-color: #f1f5f9; }
+
+        .admin-link {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 13px;
+            background: #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #334155;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .admin-link:hover { background: #cbd5e1; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- REGISTRATION VIEW -->
+    <div id="view-register">
+        <h1>Word Formation Mastery Assessment</h1>
+        <p>Silakan isi identitas diri Anda sebelum memulai tes *word formation/derivatives*.</p>
+        <form id="form-register" onsubmit="event.preventDefault(); handleRegister();">
+            <div class="form-group">
+                <label for="user-name">Nama Lengkap:</label>
+                <input type="text" id="user-name" required placeholder="Masukkan nama Anda">
+            </div>
+            <div class="form-group">
+                <label for="user-phone">Nomor Telepon / HP (Sebagai ID Unik Peserta):</label>
+                <input type="tel" id="user-phone" required placeholder="Contoh: 08123456789">
+            </div>
+            <button type="submit" class="btn-block">Lanjutkan ke Dashboard Tes</button>
+        </form>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard" class="hidden">
+        <h2>Selamat Datang, <span id="dash-name"></span>!</h2>
+        <p>ID Peserta (No. HP): <strong><span id="dash-phone"></span></strong></p>
+
+        <div class="card">
+            <h3>1. Pre-Test (50 Soal)</h3>
+            <p>Menguji pemahaman dasar pembentukan kata turunan (Nouns, Adjectives, Adverbs, Agent) dari kata kerja dasar.</p>
+            <div id="status-pretest">Status: <span class="badge bg-blue">Belum Selesai</span></div>
+            <button id="btn-pretest" onclick="startTest('pre')" style="margin-top:15px;">Mulai Pre-Test</button>
+        </div>
+
+        <div class="card">
+            <h3>2. Post-Test (100 Soal)</h3>
+            <p>Tes evaluasi akhir komprehensif. Modul ini terbuka secara otomatis setelah Pre-Test selesai dikerjakan.</p>
+            <div id="status-posttest">Status: <span class="badge bg-blue">Terkunci</span></div>
+            <button id="btn-posttest" onclick="startTest('post')" style="margin-top:15px;" disabled>Mulai Post-Test</button>
+        </div>
+        
+        <button onclick="logoutUser()" style="background:#64748b;">Ganti Peserta / Keluar</button>
+    </div>
+
+    <!-- TEST VIEW -->
+    <div id="view-test" class="hidden">
+        <h2 id="test-title">Kuis</h2>
+        <p id="test-progress">Soal 1 dari 50</p>
+        
+        <div class="card">
+            <p id="question-text" style="font-size: 18px; font-weight: 500;"></p>
+            <div id="options-container"></div>
+        </div>
+
+        <button id="btn-next" class="btn-block" onclick="nextQuestion()">Soal Berikutnya</button>
+    </div>
+
+    <!-- RESULT VIEW -->
+    <div id="view-result" class="hidden">
+        <h2>Hasil Tes Selesai</h2>
+        <div class="card">
+            <h3>Skor Anda: <span id="score-val" style="color:var(--primary); font-size:28px;"></span>%</h3>
+            <p id="score-detail"></p>
+        </div>
+        <button onclick="showDashboard()">Kembali ke Dashboard Utama</button>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="view-admin" class="hidden">
+        <h2>Panel Operator / Administrator</h2>
+        <p>Akses Terproteksi Kata Sandi Operator</p>
+        
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <button onclick="showDashboard()">&larr; Kembali ke Dashboard Peserta</button>
+            <button onclick="exportCSV()" style="background-color:var(--success);">Unduh Rekap CSV / Excel</button>
+        </div>
+        
+        <div class="card">
+            <h3>Daftar Nilai Kuis Seluruh Peserta</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No HP (ID)</th>
+                        <th>Nama Peserta</th>
+                        <th>Pre-Test (50)</th>
+                        <th>Post-Test (100)</th>
+                        <th>Aksi Operator</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="admin-link" onclick="openAdmin()">🔑 Panel Operator</div>
+
+<script>
+// BANK DATA KATA KERJA UTAMA & KATA DERIVATIFNYA
+const baseVerbs = [
+    {v: "ACT", n: "action", adj: "active", adv: "actively", agent: "actor"},
+    {v: "CREATE", n: "creation", adj: "creative", adv: "creatively", agent: "creator"},
+    {v: "DECIDE", n: "decision", adj: "decisive", adv: "decisively", agent: "decider"},
+    {v: "EMPLOY", n: "employment", adj: "employable", adv: "", agent: "employer"},
+    {v: "INFORM", n: "information", adj: "informative", adv: "informatively", agent: "informant"},
+    {v: "MANAGE", n: "management", adj: "managerial", adv: "", agent: "manager"},
+    {v: "PRODUCE", n: "production", adj: "productive", adv: "productively", agent: "producer"},
+    {v: "SELECT", n: "selection", adj: "selective", adv: "selectively", agent: "selector"},
+    {v: "DEPEND", n: "dependence", adj: "dependent", adv: "dependently", agent: "dependant"},
+    {v: "DIFFER", n: "difference", adj: "different", adv: "differently", agent: ""},
+    {v: "EDUCATE", n: "education", adj: "educational", adv: "educationally", agent: "educator"},
+    {v: "IMAGINE", n: "imagination", adj: "imaginative", adv: "imaginatively", agent: ""},
+    {v: "INVEST", n: "investment", adj: "invested", adv: "", agent: "investor"},
+    {v: "ORGANIZE", n: "organization", adj: "organized", adv: "", agent: "organizer"},
+    {v: "PROTECT", n: "protection", adj: "protective", adv: "protectively", agent: "protector"},
+    {v: "RESPOND", n: "response", adj: "responsive", adv: "responsively", agent: "respondent"},
+    {v: "SUCCEED", n: "success", adj: "successful", adv: "successfully", agent: "successor"},
+    {v: "ATTRACT", n: "attraction", adj: "attractive", adv: "attractively", agent: ""},
+    {v: "COMPUTE", n: "computation", adj: "computational", adv: "", agent: "computer"},
+    {v: "DESCRIBE", n: "description", adj: "descriptive", adv: "descriptively", agent: ""}
+];
+
+function generateQuestions(count, offsetSeed = 0) {
+    let questions = [];
+    const templates = [
+        {
+            type: "Noun Formation",
+            text: (v) => `The system requires proper _____ to function efficiently in this environment. (Root Verb: ${v.v})`,
+            ans: (v) => v.n
+        },
+        {
+            type: "Adjective Formation",
+            text: (v) => `She was highly praised for taking a very _____ approach during the project. (Root Verb: ${v.v})`,
+            ans: (v) => v.adj
+        },
+        {
+            type: "Adverb Formation",
+            text: (v) => `The team carried out their duties _____ to achieve the annual goal. (Root Verb: ${v.v})`,
+            ans: (v) => v.adv || v.n
+        },
+        {
+            type: "Agent Noun Formation",
+            text: (v) => `A qualified _____ was assigned to manage the operational division. (Root Verb: ${v.v})`,
+            ans: (v) => v.agent || v.n
+        }
+    ];
+
+    for (let i = 0; i < count; i++) {
+        let verbObj = baseVerbs[(i + offsetSeed) % baseVerbs.length];
+        let tpl = templates[i % templates.length];
+        let correctAnswer = tpl.ans(verbObj);
+        
+        let options = [correctAnswer, verbObj.v.toLowerCase()];
+        if (verbObj.n && verbObj.n !== correctAnswer) options.push(verbObj.n);
+        if (verbObj.adj && verbObj.adj !== correctAnswer) options.push(verbObj.adj);
+        if (verbObj.adv && verbObj.adv !== correctAnswer) options.push(verbObj.adv);
+
+        options = Array.from(new Set(options)).slice(0, 4);
+        while (options.length < 4) {
+            options.push(verbObj.v.toLowerCase() + "ing");
+        }
+
+        options.sort(() => Math.random() - 0.5);
+
+        questions.push({
+            q: `${i + 1}. ` + tpl.text(verbObj),
+            options: options,
+            correct: correctAnswer
+        });
+    }
+    return questions;
+}
+
+const preTestQuestions = generateQuestions(50, 0);
+const postTestQuestions = generateQuestions(100, 50);
+
+// GLOBAL STATE
+let currentUser = null;
+let currentTestType = null;
+let currentQuestions = [];
+let currentQIndex = 0;
+let userAnswers = [];
+
+const ADMIN_PASS = "Fakinah_Word_Formation";
+
+window.onload = function() {
+    let savedUser = localStorage.getItem('wf_current_user');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showDashboard();
+    }
+};
+
+function handleRegister() {
+    const name = document.getElementById('user-name').value.trim();
+    const phone = document.getElementById('user-phone').value.trim();
+
+    if (!name || !phone) {
+        alert("Mohon isi Nama dan Nomor Telepon dengan benar.");
+        return;
+    }
+
+    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    
+    if (!usersDB[phone]) {
+        usersDB[phone] = { name: name, phone: phone, preScore: null, postScore: null };
+    } else {
+        usersDB[phone].name = name;
+    }
+
+    localStorage.setItem('wf_users_db', JSON.stringify(usersDB));
+    currentUser = usersDB[phone];
+    localStorage.setItem('wf_current_user', JSON.stringify(currentUser));
+    
+    showDashboard();
+}
+
+function showDashboard() {
+    document.getElementById('view-register').classList.add('hidden');
+    document.getElementById('view-test').classList.add('hidden');
+    document.getElementById('view-result').classList.add('hidden');
+    document.getElementById('view-admin').classList.add('hidden');
+    document.getElementById('view-dashboard').classList.remove('hidden');
+
+    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    if (currentUser && usersDB[currentUser.phone]) {
+        currentUser = usersDB[currentUser.phone];
+    }
+
+    document.getElementById('dash-name').innerText = currentUser.name;
+    document.getElementById('dash-phone').innerText = currentUser.phone;
+
+    const preStat = document.getElementById('status-pretest');
+    const postStat = document.getElementById('status-posttest');
+    const btnPre = document.getElementById('btn-pretest');
+    const btnPost = document.getElementById('btn-posttest');
+
+    if (currentUser.preScore !== null) {
+        preStat.innerHTML = `<span class="badge bg-green">Selesai (Skor: ${currentUser.preScore}%)</span>`;
+        btnPre.innerText = "Ulangi Pre-Test";
+        btnPost.disabled = false;
+        postStat.innerHTML = `<span class="badge bg-blue">Siap Dikerjakan</span>`;
+    } else {
+        preStat.innerHTML = `<span class="badge bg-blue">Belum Selesai</span>`;
+        btnPost.disabled = true;
+        postStat.innerHTML = `<span class="badge bg-blue">Terkunci (Selesaikan Pre-Test Dahulu)</span>`;
+    }
+
+    if (currentUser.postScore !== null) {
+        postStat.innerHTML = `<span class="badge bg-green">Selesai (Skor: ${currentUser.postScore}%)</span>`;
+        btnPost.innerText = "Ulangi Post-Test";
+    }
+}
+
+function logoutUser() {
+    localStorage.removeItem('wf_current_user');
+    currentUser = null;
+    document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-register').classList.remove('hidden');
+}
+
+function startTest(type) {
+    currentTestType = type;
+    currentQuestions = type === 'pre' ? preTestQuestions : postTestQuestions;
+    currentQIndex = 0;
+    userAnswers = new Array(currentQuestions.length).fill(null);
+
+    document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-test').classList.remove('hidden');
+    document.getElementById('test-title').innerText = type === 'pre' ? 'Pre-Test Word Formation' : 'Post-Test Word Formation';
+
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const qData = currentQuestions[currentQIndex];
+    document.getElementById('test-progress').innerText = `Soal ${currentQIndex + 1} dari ${currentQuestions.length}`;
+    document.getElementById('question-text').innerText = qData.q;
+
+    const optContainer = document.getElementById('options-container');
+    optContainer.innerHTML = '';
+
+    qData.options.forEach((opt) => {
+        const isChecked = userAnswers[currentQIndex] === opt ? 'checked' : '';
+        optContainer.innerHTML += `
+            <label class="option-label">
+                <input type="radio" name="opt" value="${opt}" ${isChecked} onchange="userAnswers[${currentQIndex}] = '${opt}'">
+                ${opt}
+            </label>
+        `;
+    });
+
+    document.getElementById('btn-next').innerText = (currentQIndex === currentQuestions.length - 1) ? "Selesaikan & Kirim Jawaban" : "Soal Berikutnya";
+}
+
+function nextQuestion() {
+    if (userAnswers[currentQIndex] === null) {
+        alert("Silakan pilih salah satu jawaban sebelum melanjutkan!");
+        return;
+    }
+
+    if (currentQIndex < currentQuestions.length - 1) {
+        currentQIndex++;
+        renderQuestion();
+    } else {
+        finishTest();
+    }
+}
+
+function finishTest() {
+    let correctCount = 0;
+    currentQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correct) correctCount++;
+    });
+
+    let score = Math.round((correctCount / currentQuestions.length) * 100);
+
+    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    if (currentTestType === 'pre') {
+        currentUser.preScore = score;
+    } else {
+        currentUser.postScore = score;
+    }
+
+    usersDB[currentUser.phone] = currentUser;
+    localStorage.setItem('wf_users_db', JSON.stringify(usersDB));
+    localStorage.setItem('wf_current_user', JSON.stringify(currentUser));
+
+    document.getElementById('view-test').classList.add('hidden');
+    document.getElementById('view-result').classList.remove('hidden');
+    document.getElementById('score-val').innerText = score;
+    document.getElementById('score-detail').innerText = `Anda berhasil menjawab benar ${correctCount} dari total ${currentQuestions.length} soal. Nilai Anda telah otomatis tercatat oleh sistem operator.`;
+}
+
+// PANEL OPERATOR & KONTROL
+function openAdmin() {
+    const inputPass = prompt("Masukkan Password Operator:");
+    if (inputPass === ADMIN_PASS) {
+        document.getElementById('view-register').classList.add('hidden');
+        document.getElementById('view-dashboard').classList.add('hidden');
+        document.getElementById('view-test').classList.add('hidden');
+        document.getElementById('view-result').classList.add('hidden');
+        document.getElementById('view-admin').classList.remove('hidden');
+
+        renderAdminTable();
+    } else if (inputPass !== null) {
+        alert("Kata sandi salah! Akses ditolak.");
+    }
+}
+
+function renderAdminTable() {
+    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    const tbody = document.getElementById('admin-table-body');
+    tbody.innerHTML = '';
+
+    const keys = Object.keys(usersDB);
+    if (keys.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Belum ada peserta yang mendaftar atau mengerjakan tes.</td></tr>`;
+        return;
+    }
+
+    keys.forEach(phone => {
+        let u = usersDB[phone];
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${u.phone}</strong></td>
+                <td>${u.name}</td>
+                <td>${u.preScore !== null ? u.preScore + '%' : '<span style="color:#aaa;">Belum</span>'}</td>
+                <td>${u.postScore !== null ? u.postScore + '%' : '<span style="color:#aaa;">Belum</span>'}</td>
+                <td>
+                    <button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="resetUser('${u.phone}')">Reset Tes</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function resetUser(phone) {
+    if (confirm(`Apakah Anda yakin ingin mereset hasil tes untuk ID/No HP: ${phone}?`)) {
+        let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+        if (usersDB[phone]) {
+            usersDB[phone].preScore = null;
+            usersDB[phone].postScore = null;
+            localStorage.setItem('wf_users_db', JSON.stringify(usersDB));
+            renderAdminTable();
+        }
+    }
+}
+
+function exportCSV() {
+    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    let csv = 'No HP (ID),Nama Peserta,Pre-Test Score,Post-Test Score\n';
+
+    Object.keys(usersDB).forEach(phone => {
+        let u = usersDB[phone];
+        csv += `"${u.phone}","${u.name}",${u.preScore !== null ? u.preScore : ''},${u.postScore !== null ? u.postScore : ''}\n`;
+    });
+
+    let blob = new Blob([csv], { type: 'text/csv' });
+    let url = window.URL.createObjectURL(blob);
+    let a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'Rekap_Nilai_Word_Formation.csv');
+    a.click();
+}
+</script>
+</body>
+</html>
