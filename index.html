@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Formation Mastery Test</title>
-    <!-- Chart.js CDN untuk Grafik Analytics Operator -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -15,7 +13,6 @@
             --text: #1e293b;
             --border: #e2e8f0;
             --success: #16a34a;
-            --warning: #d97706;
             --danger: #dc2626;
         }
 
@@ -38,107 +35,112 @@
         }
 
         h1, h2, h3 { color: #0f172a; margin-top: 0; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
         input[type="text"], input[type="tel"], input[type="password"] {
-            width: 100%; padding: 10px 14px;
-            border: 1px solid var(--border); border-radius: 6px;
-            box-sizing: border-box; font-size: 16px;
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
         button {
-            background-color: var(--primary); color: white; border: none;
-            padding: 10px 18px; border-radius: 6px; font-size: 15px;
-            font-weight: 600; cursor: pointer; transition: background 0.2s;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
         }
+
         button:hover { background-color: var(--primary-hover); }
         button:disabled { background-color: #94a3b8; cursor: not-allowed; }
         .btn-block { width: 100%; }
-
-        .btn-secondary { background-color: #64748b; }
-        .btn-secondary:hover { background-color: #475569; }
-
-        .btn-warning { background-color: var(--warning); color: #fff; padding: 6px 12px; font-size: 12px; }
-        .btn-warning:hover { background-color: #b45309; }
-
-        .btn-danger { background-color: var(--danger); color: #fff; padding: 6px 12px; font-size: 12px; }
+        .btn-danger { background-color: var(--danger); }
         .btn-danger:hover { background-color: #b91c1c; }
-
-        .btn-clear-all {
-            background-color: var(--danger);
-            color: #fff;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .btn-clear-all:hover { background-color: #991b1b; }
 
         .hidden { display: none !important; }
 
         .card {
-            border: 1px solid var(--border); padding: 20px;
-            border-radius: 8px; margin-bottom: 20px; background-color: #fff;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #fff;
         }
 
         .option-label {
-            display: flex; align-items: center; padding: 10px;
-            border: 1px solid var(--border); border-radius: 6px;
-            margin-bottom: 8px; cursor: pointer; transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
         }
+
         .option-label:hover { background-color: #f1f5f9; }
         .option-label input { margin-right: 12px; }
 
         .badge {
-            display: inline-block; padding: 4px 8px;
-            border-radius: 4px; font-size: 12px; font-weight: bold; color: white;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
         }
         .bg-blue { background-color: var(--primary); }
         .bg-green { background-color: var(--success); }
-        .bg-orange { background-color: var(--warning); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid var(--border); padding: 10px; text-align: left; font-size: 14px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
         th { background-color: #f1f5f9; }
 
         .admin-link {
-            position: fixed; bottom: 15px; right: 15px;
-            font-size: 13px; background: #e2e8f0; padding: 8px 12px;
-            border-radius: 6px; color: #334155; cursor: pointer; font-weight: 600;
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            font-size: 13px;
+            background: #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #334155;
+            cursor: pointer;
+            font-weight: 600;
         }
         .admin-link:hover { background: #cbd5e1; }
-
-        .user-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .chart-container {
-            position: relative;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            width: 100%;
-            height: 350px;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .table-header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+        
+        .loading-status {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -158,19 +160,15 @@
                 <label for="user-phone">Nomor Telepon / HP (Sebagai ID Unik Peserta):</label>
                 <input type="tel" id="user-phone" required placeholder="Contoh: 08123456789">
             </div>
-            <button type="submit" class="btn-block">Lanjutkan ke Dashboard Tes</button>
+            <button type="submit" id="btn-reg" class="btn-block">Lanjutkan ke Dashboard Tes</button>
+            <div id="reg-loading" class="loading-status"></div>
         </form>
     </div>
 
     <!-- DASHBOARD VIEW -->
     <div id="view-dashboard" class="hidden">
-        <div class="user-header">
-            <div>
-                <h2 style="margin:0;">Selamat Datang, <span id="dash-name"></span>!</h2>
-                <p style="margin:5px 0 0 0;">ID Peserta (No. HP): <strong><span id="dash-phone"></span></strong></p>
-            </div>
-            <button onclick="logoutUser()" class="btn-secondary">Ganti Peserta / Keluar</button>
-        </div>
+        <h2>Selamat Datang, <span id="dash-name"></span>!</h2>
+        <p>ID Peserta (No. HP): <strong><span id="dash-phone"></span></strong></p>
 
         <div class="card">
             <h3>1. Pre-Test (50 Soal)</h3>
@@ -181,10 +179,12 @@
 
         <div class="card">
             <h3>2. Post-Test (100 Soal)</h3>
-            <p>Tes evaluasi akhir komprehensif. Modul ini terbuka secara otomatis setelah Pre-Test selesai dikerjakan atau di-unlock oleh operator.</p>
+            <p>Tes evaluasi akhir komprehensif. Modul ini terbuka secara otomatis setelah Pre-Test selesai dikerjakan.</p>
             <div id="status-posttest">Status: <span class="badge bg-blue">Terkunci</span></div>
             <button id="btn-posttest" onclick="startTest('post')" style="margin-top:15px;" disabled>Mulai Post-Test</button>
         </div>
+        
+        <button onclick="logoutUser()" style="background:#64748b;">Ganti Peserta / Keluar</button>
     </div>
 
     <!-- TEST VIEW -->
@@ -205,7 +205,7 @@
         <h2>Hasil Tes Selesai</h2>
         <div class="card">
             <h3>Skor Anda: <span id="score-val" style="color:var(--primary); font-size:28px;"></span>%</h3>
-            <p id="sync-status">Menyimpan nilai ke database server operator...</p>
+            <p id="score-detail"></p>
         </div>
         <button onclick="showDashboard()">Kembali ke Dashboard Utama</button>
     </div>
@@ -213,45 +213,28 @@
     <!-- ADMIN PANEL -->
     <div id="view-admin" class="hidden">
         <h2>Panel Operator / Administrator</h2>
-        <button onclick="exitAdmin()" style="margin-bottom: 15px;">&larr; Keluar dari Panel Operator</button>
-
-        <div class="card" style="background-color: #eff6ff; border-color: #bfdbfe;">
-            <h3>Akses Cepat Soal (Khusus Operator)</h3>
-            <p style="font-size:14px; margin-bottom:10px;">Operator dapat membuka dan meninjau seluruh bank soal tanpa mempengaruhi data peserta:</p>
-            <div class="admin-actions">
-                <button onclick="adminPreviewTest('pre')">Buka & Pratinjau Pre-Test</button>
-                <button onclick="adminPreviewTest('post')" class="btn-secondary">Buka & Pratinjau Post-Test</button>
-            </div>
+        <p>Akses Terproteksi Kata Sandi Operator (Real-time Cloud Data)</p>
+        
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <button onclick="showDashboard()">&larr; Kembali ke Dashboard Peserta</button>
+            <button onclick="fetchCloudData().then(renderAdminTable)" style="background-color:var(--primary);">🔄 Refresh Data</button>
+            <button onclick="exportCSV()" style="background-color:var(--success);">Unduh Rekap CSV / Excel</button>
         </div>
-
+        
         <div class="card">
-            <h3>Grafik Capaian Nilai Peserta (Live Online)</h3>
-            <button onclick="fetchOnlineData()" class="btn-secondary" style="margin-bottom:15px;">🔄 Refresh Data Nilai Terbaru</button>
-            <div class="chart-container">
-                <canvas id="scoreChart"></canvas>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="table-header-flex">
-                <h3 style="margin:0;">Daftar Nilai Kuis Seluruh Peserta (Real-time Online)</h3>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="exportCSV()" style="background-color:var(--success);">Unduh CSV / Excel</button>
-                    <button class="btn-clear-all" onclick="clearAllParticipants()">🗑️ Hapus Semua Peserta</button>
-                </div>
-            </div>
-            <p style="font-size:13px; color:#64748b; margin-top:8px;">Nilai dari peserta akan otomatis terisi di tabel ini. Klik tombol di atas untuk mengunduh rekapitulasi nilai.</p>
+            <h3>Daftar Nilai Kuis Seluruh Peserta</h3>
             <table>
                 <thead>
                     <tr>
                         <th>No HP (ID)</th>
                         <th>Nama Peserta</th>
-                        <th>Pre-Test</th>
-                        <th>Post-Test</th>
+                        <th>Pre-Test (50)</th>
+                        <th>Post-Test (100)</th>
                         <th>Aksi Operator</th>
                     </tr>
                 </thead>
-                <tbody id="admin-table-body"></tbody>
+                <tbody id="admin-table-body">
+                </tbody>
             </table>
         </div>
     </div>
@@ -260,11 +243,10 @@
 <div class="admin-link" onclick="openAdmin()">🔑 Panel Operator</div>
 
 <script>
-// =========================================================================
-// TEMPELKAN SECRET KEY DARI JSONBIN.IO DI DALAM TANDA PETIK DI BAWAH INI:
-// =========================================================================
-const JSONBIN_SECRET_KEY = "$2a$10$4lmODdxaLkBVIsNU0wHrCOllyrGpXGSvKuZO/.g5c/L8N01GR/88S";
-const ADMIN_PASS = "Fakinah_Word_Formation";
+// CONFIGURASI API JSONBIN.IO
+const JSONBIN_BIN_ID = "MASUKKAN_BIN_ID_ANDA_DISINI"; 
+const JSONBIN_API_KEY = "MASUKKAN_MASTER_KEY_ANDA_DISINI";
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 // BANK DATA KATA KERJA UTAMA & KATA DERIVATIFNYA
 const baseVerbs = [
@@ -350,122 +332,87 @@ let currentTestType = null;
 let currentQuestions = [];
 let currentQIndex = 0;
 let userAnswers = [];
-let myChartInstance = null;
-let isAdminMode = false;
+
+const ADMIN_PASS = "Fakinah_Word_Formation";
+
+// INTEGRASI API JSONBIN
+async function fetchCloudData() {
+    try {
+        const response = await fetch(`${JSONBIN_URL}/latest`, {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+        });
+        if (!response.ok) throw new Error("Gagal mengambil data dari server");
+        const data = await response.json();
+        return data.record || {};
+    } catch (err) {
+        console.error(err);
+        return {};
+    }
+}
+
+async function updateCloudData(usersDB) {
+    try {
+        await fetch(JSONBIN_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_API_KEY
+            },
+            body: JSON.stringify(usersDB)
+        });
+    } catch (err) {
+        console.error("Gagal sinkronisasi data ke cloud:", err);
+    }
+}
 
 window.onload = function() {
-    fetchOnlineData();
     let savedUser = localStorage.getItem('wf_current_user');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showDashboard();
-    } else {
-        showRegister();
     }
 };
 
-// SYNCHRONIZATION WITH JSONBIN DATABASE
-async function fetchOnlineData() {
-    if(!JSONBIN_SECRET_KEY || JSONBIN_SECRET_KEY.includes("TEMPEL_SECRET_KEY")) return;
-    try {
-        let res = await fetch("https://api.jsonbin.io/v3/b", {
-            headers: {
-                "X-Master-Key": JSONBIN_SECRET_KEY,
-                "X-Bin-Name": "Word_Formation_Test_Data"
-            }
-        });
-        let data = await res.json();
-        if(data && data.length > 0) {
-            let binId = data[0].record;
-            let recordRes = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
-                headers: { "X-Master-Key": JSONBIN_SECRET_KEY }
-            });
-            let recordData = await recordRes.json();
-            let onlineDB = recordData.record || {};
-            localStorage.setItem('wf_users_db', JSON.stringify(onlineDB));
-            if(!document.getElementById('view-admin').classList.contains('hidden')){
-                renderAdminTable();
-                renderAdminChart();
-            }
-        }
-    } catch(e) {
-        console.log("Menggunakan penyimpanan lokal sementara.");
-    }
-}
-
-async function saveOnlineData(dbData) {
-    localStorage.setItem('wf_users_db', JSON.stringify(dbData));
-    if(!JSONBIN_SECRET_KEY || JSONBIN_SECRET_KEY.includes("TEMPEL_SECRET_KEY")) return;
-    try {
-        await fetch("https://api.jsonbin.io/v3/b", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": JSONBIN_SECRET_KEY,
-                "X-Bin-Name": "Word_Formation_Test_Data"
-            },
-            body: JSON.stringify(dbData)
-        });
-    } catch(e) { 
-        console.error("Gagal sinkronisasi online:", e); 
-    }
-}
-
-function handleRegister() {
+async function handleRegister() {
     const name = document.getElementById('user-name').value.trim();
     const phone = document.getElementById('user-phone').value.trim();
+    const btnReg = document.getElementById('btn-reg');
+    const loadingText = document.getElementById('reg-loading');
 
     if (!name || !phone) {
         alert("Mohon isi Nama dan Nomor Telepon dengan benar.");
         return;
     }
 
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+    btnReg.disabled = true;
+    loadingText.innerText = "Menghubungkan ke server...";
+
+    let usersDB = await fetchCloudData();
+    
     if (!usersDB[phone]) {
-        usersDB[phone] = { 
-            name: name, 
-            phone: phone, 
-            preScore: null, 
-            postScore: null,
-            unlockedPost: false 
-        };
+        usersDB[phone] = { name: name, phone: phone, preScore: null, postScore: null };
     } else {
         usersDB[phone].name = name;
     }
 
-    saveOnlineData(usersDB);
+    await updateCloudData(usersDB);
     currentUser = usersDB[phone];
     localStorage.setItem('wf_current_user', JSON.stringify(currentUser));
+    
+    btnReg.disabled = false;
+    loadingText.innerText = "";
     showDashboard();
 }
 
-function logoutUser() {
-    localStorage.removeItem('wf_current_user');
-    currentUser = null;
-    document.getElementById('user-name').value = '';
-    document.getElementById('user-phone').value = '';
-    showRegister();
-}
-
-function showRegister() {
-    document.getElementById('view-dashboard').classList.add('hidden');
-    document.getElementById('view-test').classList.add('hidden');
-    document.getElementById('view-result').classList.add('hidden');
-    document.getElementById('view-admin').classList.add('hidden');
-    document.getElementById('view-register').classList.remove('hidden');
-}
-
-function showDashboard() {
+async function showDashboard() {
     document.getElementById('view-register').classList.add('hidden');
     document.getElementById('view-test').classList.add('hidden');
     document.getElementById('view-result').classList.add('hidden');
     document.getElementById('view-admin').classList.add('hidden');
     document.getElementById('view-dashboard').classList.remove('hidden');
 
-    if (!currentUser) return;
-
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
-    if (usersDB[currentUser.phone]) {
+    let usersDB = await fetchCloudData();
+    if (currentUser && usersDB[currentUser.phone]) {
         currentUser = usersDB[currentUser.phone];
     }
 
@@ -474,36 +421,40 @@ function showDashboard() {
 
     const preStat = document.getElementById('status-pretest');
     const postStat = document.getElementById('status-posttest');
+    const btnPre = document.getElementById('btn-pretest');
     const btnPost = document.getElementById('btn-posttest');
 
-    preStat.innerHTML = currentUser.preScore !== null 
-        ? `<span class="badge bg-green">Selesai (${currentUser.preScore}%)</span>` 
-        : `<span class="badge bg-blue">Belum Selesai</span>`;
-
-    if (currentUser.preScore !== null || currentUser.unlockedPost) {
+    if (currentUser.preScore !== null) {
+        preStat.innerHTML = `<span class="badge bg-green">Selesai (Skor: ${currentUser.preScore}%)</span>`;
+        btnPre.innerText = "Ulangi Pre-Test";
         btnPost.disabled = false;
-        postStat.innerHTML = currentUser.unlockedPost && currentUser.preScore === null 
-            ? `<span class="badge bg-orange">Di-unlock Operator</span>` 
-            : `<span class="badge bg-blue">Siap Dikerjakan</span>`;
+        postStat.innerHTML = `<span class="badge bg-blue">Siap Dikerjakan</span>`;
     } else {
+        preStat.innerHTML = `<span class="badge bg-blue">Belum Selesai</span>`;
         btnPost.disabled = true;
-        postStat.innerHTML = `<span class="badge bg-blue">Terkunci</span>`;
+        postStat.innerHTML = `<span class="badge bg-blue">Terkunci (Selesaikan Pre-Test Dahulu)</span>`;
     }
 
     if (currentUser.postScore !== null) {
-        postStat.innerHTML = `<span class="badge bg-green">Selesai (${currentUser.postScore}%)</span>`;
+        postStat.innerHTML = `<span class="badge bg-green">Selesai (Skor: ${currentUser.postScore}%)</span>`;
+        btnPost.innerText = "Ulangi Post-Test";
     }
 }
 
+function logoutUser() {
+    localStorage.removeItem('wf_current_user');
+    currentUser = null;
+    document.getElementById('view-dashboard').classList.add('hidden');
+    document.getElementById('view-register').classList.remove('hidden');
+}
+
 function startTest(type) {
-    isAdminMode = false;
     currentTestType = type;
     currentQuestions = type === 'pre' ? preTestQuestions : postTestQuestions;
     currentQIndex = 0;
     userAnswers = new Array(currentQuestions.length).fill(null);
 
     document.getElementById('view-dashboard').classList.add('hidden');
-    document.getElementById('view-admin').classList.add('hidden');
     document.getElementById('view-test').classList.remove('hidden');
     document.getElementById('test-title').innerText = type === 'pre' ? 'Pre-Test Word Formation' : 'Post-Test Word Formation';
 
@@ -532,7 +483,7 @@ function renderQuestion() {
 }
 
 function nextQuestion() {
-    if (userAnswers[currentQIndex] === null && !isAdminMode) {
+    if (userAnswers[currentQIndex] === null) {
         alert("Silakan pilih salah satu jawaban sebelum melanjutkan!");
         return;
     }
@@ -541,16 +492,15 @@ function nextQuestion() {
         currentQIndex++;
         renderQuestion();
     } else {
-        if (isAdminMode) {
-            alert("Pratinjau soal operator selesai.");
-            openAdminViewDirectly();
-        } else {
-            finishTest();
-        }
+        finishTest();
     }
 }
 
 async function finishTest() {
+    const btnNext = document.getElementById('btn-next');
+    btnNext.disabled = true;
+    btnNext.innerText = "Mengirim Nilai ke Server...";
+
     let correctCount = 0;
     currentQuestions.forEach((q, idx) => {
         if (userAnswers[idx] === q.correct) correctCount++;
@@ -558,169 +508,83 @@ async function finishTest() {
 
     let score = Math.round((correctCount / currentQuestions.length) * 100);
 
+    let usersDB = await fetchCloudData();
     if (currentTestType === 'pre') {
         currentUser.preScore = score;
     } else {
         currentUser.postScore = score;
     }
 
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
     usersDB[currentUser.phone] = currentUser;
+    await updateCloudData(usersDB);
+    localStorage.setItem('wf_current_user', JSON.stringify(currentUser));
 
+    btnNext.disabled = false;
     document.getElementById('view-test').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
     document.getElementById('score-val').innerText = score;
-    document.getElementById('sync-status').innerText = "Menyimpan nilai ke server operator...";
-
-    await saveOnlineData(usersDB);
-    localStorage.setItem('wf_current_user', JSON.stringify(currentUser));
-
-    document.getElementById('sync-status').innerText = "✅ Nilai berhasil terkirim secara Live ke Panel Operator!";
+    document.getElementById('score-detail').innerText = `Anda berhasil menjawab benar ${correctCount} dari total ${currentQuestions.length} soal. Nilai Anda telah otomatis tersimpan di server cloud operator.`;
 }
 
 // PANEL OPERATOR & KONTROL
-function openAdmin() {
+async function openAdmin() {
     const inputPass = prompt("Masukkan Password Operator:");
-    if (inputPass !== null && inputPass.trim() === ADMIN_PASS) {
-        openAdminViewDirectly();
+    if (inputPass === ADMIN_PASS) {
+        document.getElementById('view-register').classList.add('hidden');
+        document.getElementById('view-dashboard').classList.add('hidden');
+        document.getElementById('view-test').classList.add('hidden');
+        document.getElementById('view-result').classList.add('hidden');
+        document.getElementById('view-admin').classList.remove('hidden');
+
+        await renderAdminTable();
     } else if (inputPass !== null) {
-        alert("Kata sandi salah! Gunakan: Fakinah_Word_Formation");
+        alert("Kata sandi salah! Akses ditolak.");
     }
 }
 
-async function openAdminViewDirectly() {
-    document.getElementById('view-register').classList.add('hidden');
-    document.getElementById('view-dashboard').classList.add('hidden');
-    document.getElementById('view-test').classList.add('hidden');
-    document.getElementById('view-result').classList.add('hidden');
-    document.getElementById('view-admin').classList.remove('hidden');
-
-    await fetchOnlineData();
-    renderAdminTable();
-    renderAdminChart();
-}
-
-function exitAdmin() {
-    if (currentUser) showDashboard();
-    else showRegister();
-}
-
-function adminPreviewTest(type) {
-    isAdminMode = true;
-    currentTestType = type;
-    currentQuestions = type === 'pre' ? preTestQuestions : postTestQuestions;
-    currentQIndex = 0;
-    userAnswers = new Array(currentQuestions.length).fill(null);
-
-    document.getElementById('view-admin').classList.add('hidden');
-    document.getElementById('view-test').classList.remove('hidden');
-    document.getElementById('test-title').innerText = `[MODUS OPERATOR] Pratinjau ${type === 'pre' ? 'Pre-Test' : 'Post-Test'}`;
-    renderQuestion();
-}
-
-function toggleUnlockPost(phone) {
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
-    if (usersDB[phone]) {
-        usersDB[phone].unlockedPost = !usersDB[phone].unlockedPost;
-        saveOnlineData(usersDB);
-        renderAdminTable();
-        alert(`Akses Post-Test untuk No HP ${phone} diperbarui!`);
-    }
-}
-
-function resetUser(phone) {
-    if (confirm(`Apakah Anda yakin ingin mereset hasil tes untuk ID/No HP: ${phone}?`)) {
-        let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
-        if (usersDB[phone]) {
-            usersDB[phone].preScore = null;
-            usersDB[phone].postScore = null;
-            usersDB[phone].unlockedPost = false;
-            saveOnlineData(usersDB);
-            renderAdminTable();
-            renderAdminChart();
-        }
-    }
-}
-
-function clearAllParticipants() {
-    if (confirm("⚠️ PERINGATAN OPERATOR:\n\nHapus SELURUH data peserta untuk sesi baru?")) {
-        let emptyDB = {};
-        saveOnlineData(emptyDB);
-        localStorage.removeItem('wf_current_user');
-        currentUser = null;
-        renderAdminTable();
-        renderAdminChart();
-        alert("✅ Seluruh data peserta berhasil dibersihkan!");
-    }
-}
-
-function renderAdminTable() {
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+async function renderAdminTable() {
     const tbody = document.getElementById('admin-table-body');
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Memuat data dari cloud...</td></tr>`;
+
+    let usersDB = await fetchCloudData();
     tbody.innerHTML = '';
 
     const keys = Object.keys(usersDB);
     if (keys.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px; color:#64748b;">Belum ada peserta yang mendaftar atau mengerjakan tes.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Belum ada peserta yang mendaftar atau mengerjakan tes.</td></tr>`;
         return;
     }
 
     keys.forEach(phone => {
         let u = usersDB[phone];
-        let isPostUnlocked = u.preScore !== null || u.unlockedPost;
-
         tbody.innerHTML += `
             <tr>
                 <td><strong>${u.phone}</strong></td>
                 <td>${u.name}</td>
-                <td>${u.preScore !== null ? u.preScore + '%' : '<span style="color:#94a3b8;">Belum</span>'}</td>
-                <td>${u.postScore !== null ? u.postScore + '%' : '<span style="color:#94a3b8;">Belum</span>'}</td>
+                <td>${u.preScore !== null ? u.preScore + '%' : '<span style="color:#aaa;">Belum</span>'}</td>
+                <td>${u.postScore !== null ? u.postScore + '%' : '<span style="color:#aaa;">Belum</span>'}</td>
                 <td>
-                    <button class="btn-warning" onclick="toggleUnlockPost('${u.phone}')">
-                        ${isPostUnlocked ? 'Kunci Post-Test' : 'Buka Post-Test'}
-                    </button>
-                    <button class="btn-danger" onclick="resetUser('${u.phone}')">Reset Nilai</button>
+                    <button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="resetUser('${u.phone}')">Reset Tes</button>
                 </td>
             </tr>
         `;
     });
 }
 
-function renderAdminChart() {
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
-    let labels = [];
-    let preScores = [];
-    let postScores = [];
-
-    Object.keys(usersDB).forEach(phone => {
-        let u = usersDB[phone];
-        labels.push(u.name);
-        preScores.push(u.preScore !== null ? u.preScore : 0);
-        postScores.push(u.postScore !== null ? u.postScore : 0);
-    });
-
-    const ctx = document.getElementById('scoreChart').getContext('2d');
-    if (myChartInstance) myChartInstance.destroy();
-
-    myChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                { label: 'Pre-Test (%)', data: preScores, backgroundColor: 'rgba(37, 99, 235, 0.7)' },
-                { label: 'Post-Test (%)', data: postScores, backgroundColor: 'rgba(22, 163, 74, 0.7)' }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { y: { beginAtZero: true, max: 100 } }
+async function resetUser(phone) {
+    if (confirm(`Apakah Anda yakin ingin mereset hasil tes untuk ID/No HP: ${phone}?`)) {
+        let usersDB = await fetchCloudData();
+        if (usersDB[phone]) {
+            usersDB[phone].preScore = null;
+            usersDB[phone].postScore = null;
+            await updateCloudData(usersDB);
+            renderAdminTable();
         }
-    });
+    }
 }
 
-function exportCSV() {
-    let usersDB = JSON.parse(localStorage.getItem('wf_users_db') || '{}');
+async function exportCSV() {
+    let usersDB = await fetchCloudData();
     let csv = 'No HP (ID),Nama Peserta,Pre-Test Score,Post-Test Score\n';
 
     Object.keys(usersDB).forEach(phone => {
